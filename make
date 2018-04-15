@@ -10,13 +10,13 @@ build_frege() {
 
 main() {
 	set -e
-	mkdir -p build
-	cd build
+	mkdir -p upstream
+	cd upstream
 	test -d frege || git clone https://github.com/Frege/frege.git
 	( cd frege && build_frege )
 	cd -
-	sed 's/.*/version = '"'&'/" build/frege/version > frege-core/version.gradle
-	cp build/frege/fregec.jar frege-core/
+	sed 's/.*/version = '"'&'/" upstream/frege/version > frege-core/version.gradle
+	cp upstream/frege/fregec.jar frege-core/
 	./gradlew --no-daemon build
 }
 

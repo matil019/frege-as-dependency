@@ -1,3 +1,4 @@
+/upstream/
 build/
 .gradle
 !gradle-wrapper.jar
