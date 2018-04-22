@@ -1,4 +1,6 @@
-/upstream/
+/frege-core/
+/frege-interpreter/
+/frege-repl/
 build/
 .gradle
 !gradle-wrapper.jar

@@ -1,0 +1,11 @@
+apply plugin: 'maven-publish'
+
+apply from: 'version.gradle'
+
+publishing {
+  publications {
+    mavenJava(MavenPublication) {
+      artifact 'fregec.jar'
+    }
+  }
+}
