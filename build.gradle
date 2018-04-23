@@ -1,7 +1,0 @@
-allprojects {
-//  apply plugin: 'maven-publish'
-  group = 'org.frege-lang'
-}
-
-subprojects {
-}

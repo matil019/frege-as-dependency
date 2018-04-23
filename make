@@ -24,14 +24,20 @@ build_frege() {
 	zip -d fregec.jar '*.java'
 	java -cp fregec.jar frege.compiler.Main -version | head -1 |
 		sed -e 's/-\([0-9]\+\)-.*$/.\1/' |
-		sed -e 's/.*/version = '"'&'/" > version.gradle
+		sed -e 's/.*/ext { fregeVersion = '"'&' }/" > version.gradle
 }
 
 main() {
 	set -e
 	prepare
+
 	( cd frege-core && build_frege )
-	./gradlew --no-daemon build
+	./gradlew -p frege-core publishToMavenLocal
+
+	# Needs Java8, Java9 doesn't work
+	( cd frege-interpreter && patch -Np1 -i ../patches/frege-interpreter.patch )
+	cp frege-core/version.gradle frege-interpreter/
+	./gradlew -p frege-interpreter build
 }
 
 main "$@"

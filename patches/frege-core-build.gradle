@@ -1,10 +1,12 @@
 apply plugin: 'maven-publish'
 
 apply from: 'version.gradle'
+version = fregeVersion
 
 publishing {
   publications {
     mavenJava(MavenPublication) {
+      groupId  'org.frege-lang'
       artifact 'fregec.jar'
     }
   }

@@ -10,7 +10,4 @@
  */
 
 // To declare projects as part of a multi-project build use the 'include' method
-include 'frege-core'
-include 'frege-standalone'
-
 rootProject.name = 'frege-as-dependency'

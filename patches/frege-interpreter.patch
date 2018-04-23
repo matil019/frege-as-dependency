@@ -1,0 +1,58 @@
+diff --git a/build.gradle b/build.gradle
+index c069404..74f4932 100644
+--- a/build.gradle
++++ b/build.gradle
+@@ -11,7 +11,7 @@ buildscript {
+         mavenCentral()
+     }
+     dependencies {
+-        classpath "gradle.plugin.org.frege-lang:frege-gradle-plugin:0.5"
++        classpath "gradle.plugin.org.frege-lang:frege-gradle-plugin:0.8"
+         classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.5.3"
+     }
+ }
+@@ -26,6 +26,8 @@ allprojects {
+     }
+ }
+ 
++apply from: 'version.gradle'
++
+ subprojects {
+ 
+     apply plugin: "java"
+@@ -38,7 +40,6 @@ subprojects {
+         isSnapshot = true
+         snapshotAppendix = "-SNAPSHOT"
+         projectVersion = baseVersion + (isSnapshot ? snapshotAppendix : "")
+-        fregeVersion = "3.24-7.100"
+     }
+ 
+     apply from: "$rootDir/gradle/sonatype.gradle"
+@@ -59,14 +60,7 @@ subprojects {
+     }
+ 
+     dependencies {
+-		compile files('/home/ingo/Frege/frege/dist/frege3.24-latest.jar')
+-		runtime files('/home/ingo/Frege/frege/dist/frege3.24-latest.jar')
+-    }
+-
+-    nexusStaging {
+-        packageGroup = groupName
+-        stagingProfileId = "a622b6773bea07"
++        compile "org.frege-lang:frege-core:${fregeVersion}"
++        runtime "org.frege-lang:frege-core:${fregeVersion}"
+     }
+-
+ }
+-
+diff --git a/frege-interpreter-core/build.gradle b/frege-interpreter-core/build.gradle
+index e3025b6..c7ce84b 100644
+--- a/frege-interpreter-core/build.gradle
++++ b/frege-interpreter-core/build.gradle
+@@ -13,3 +13,6 @@ compileFrege {
+ compileTestFrege {
+     enabled = false
+ }
++
++fregeQuickCheck.enabled = false
++test.enabled = false
