@@ -15,7 +15,9 @@ prepare() {
 	git_clone https://github.com/Frege/frege.git frege-core
 	cp patches/frege-core-build.gradle frege-core/build.gradle
 	git_clone https://github.com/Frege/frege-interpreter.git
+	( cd frege-interpreter && patch -Np1 -i ../patches/frege-interpreter.patch )
 	git_clone https://github.com/Frege/frege-repl.git
+	( cd frege-repl && patch -Np1 -i ../patches/frege-repl.patch )
 }
 
 build_frege() {
@@ -35,9 +37,10 @@ main() {
 	./gradlew -p frege-core publishToMavenLocal
 
 	# Needs Java8, Java9 doesn't work
-	( cd frege-interpreter && patch -Np1 -i ../patches/frege-interpreter.patch )
 	cp frege-core/version.gradle frege-interpreter/
-	./gradlew -p frege-interpreter build
+	./gradlew -p frege-interpreter install
+
+	./gradlew -p frege-repl install
 }
 
 main "$@"
