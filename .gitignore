@@ -4,3 +4,5 @@
 build/
 .gradle
 !gradle-wrapper.jar
+/frege-standalone/version.gradle
+/frege-standalone/src/

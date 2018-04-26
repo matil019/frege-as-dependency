@@ -41,6 +41,11 @@ main() {
 	./gradlew -p frege-interpreter install
 
 	./gradlew -p frege-repl install
+
+	mkdir -p frege-standalone/src/main/frege/frege/
+	cp frege-core/frege/Starter.fr frege-standalone/src/main/frege/frege/
+	cp frege-core/version.gradle frege-standalone/
+	./gradlew -p frege-standalone install
 }
 
 main "$@"

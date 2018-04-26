@@ -1,3 +1,54 @@
-// apply plugin : 'application'
+buildscript {
+    repositories {
+        mavenLocal()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+        mavenCentral()
+    }
+    dependencies {
+        classpath "gradle.plugin.org.frege-lang:frege-gradle-plugin:0.8"
+    }
+}
 
-// mainClassName = 'frege.Starter'
+
+apply plugin: "org.frege-lang"
+apply plugin: "application"
+apply plugin: "maven"
+
+apply from: 'version.gradle'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+version = fregeVersion
+// TODO apply from sonatype.gradle?
+group = "org.frege-lang"
+// TODO obtain the correct version
+ext { fregeReplVersion = "1.4-SNAPSHOT" }
+
+compileFrege { target = "1.8" }
+compileTestFrege { enabled = false }
+
+mainClassName = "frege.Starter"
+applicationName = "frege"
+
+run {
+    standardInput = System.in
+    standardOutput = System.out
+    if (hasProperty("args")) {
+        args project.args.split()
+    }
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.frege-lang:frege-core:${fregeVersion}"
+    runtime "org.frege-lang:frege-core:${fregeVersion}"
+    compile "org.frege-lang:frege-repl-core:${fregeReplVersion}"
+    runtime "org.frege-lang:frege-repl-core:${fregeReplVersion}"
+}
