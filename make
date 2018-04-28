@@ -30,6 +30,16 @@ build_frege() {
 		sed -e 's/.*/ext { fregeVersion = '"'&' }/" > version.gradle
 }
 
+is_openjdk9() {
+	java -version 2>&1 | grep -qs -e 'openjdk version "9'
+}
+
+workaround_openjdk9() {
+	# NOTE: openjdk-9-jdk in Ubuntu appears to be too old to support '--add-export' options.
+	JVM_OPTS='--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED'
+	export JVM_OPTS
+}
+
 main() {
 	set -e
 	prepare
@@ -37,7 +47,8 @@ main() {
 	( cd frege-core && build_frege )
 	./gradlew --no-daemon -p frege-core publishToMavenLocal
 
-	# Needs Java8, Java9 doesn't work
+	# Needs a workaround if the JDK is OpenJDK9
+	is_openjdk9 && workaround_openjdk9
 	cp frege-core/version.gradle frege-interpreter/
 	./gradlew --no-daemon -p frege-interpreter install
 
