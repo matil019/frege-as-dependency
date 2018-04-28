@@ -7,7 +7,8 @@ git_clone() {
 		# assume the name of the remote is "origin"
 		( cd "$name" && git fetch origin -p && git checkout -f master && git merge --ff-only origin/master )
 	else
-		git clone "$url" "$name"
+		# let's hope that 1000 is deep enough not to break git-describe
+		git clone --depth=1000 "$url" "$name"
 	fi
 }
 
@@ -34,18 +35,18 @@ main() {
 	prepare
 
 	( cd frege-core && build_frege )
-	./gradlew -p frege-core publishToMavenLocal
+	./gradlew --no-daemon -p frege-core publishToMavenLocal
 
 	# Needs Java8, Java9 doesn't work
 	cp frege-core/version.gradle frege-interpreter/
-	./gradlew -p frege-interpreter install
+	./gradlew --no-daemon -p frege-interpreter install
 
-	./gradlew -p frege-repl install
+	./gradlew --no-daemon -p frege-repl install
 
 	mkdir -p frege-standalone/src/main/frege/frege/
 	cp frege-core/frege/Starter.fr frege-standalone/src/main/frege/frege/
 	cp frege-core/version.gradle frege-standalone/
-	./gradlew -p frege-standalone install
+	./gradlew --no-daemon -p frege-standalone install
 }
 
 main "$@"
