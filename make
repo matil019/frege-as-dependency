@@ -5,7 +5,7 @@ git_clone() {
 	local name="${2-"$(basename "$1" .git)"}"
 	if [ -d "$name" ]; then
 		# assume the name of the remote is "origin"
-		( cd "$name" && git fetch origin -p && git checkout -f master && git merge --ff-only origin/master )
+		( cd "$name" && git fetch origin -p && git merge --ff-only origin/master && git checkout -f master )
 	else
 		# let's hope that 1000 is deep enough not to break git-describe
 		git clone --depth=1000 "$url" "$name"
