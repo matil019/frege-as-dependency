@@ -16,7 +16,8 @@ prepare() {
 	git_clone https://github.com/Frege/frege.git frege-core
 	cp patches/frege-core-build.gradle frege-core/build.gradle
 	git_clone https://github.com/Frege/frege-interpreter.git
-	( cd frege-interpreter && patch -Np1 -i ../patches/frege-interpreter.patch )
+	( cd frege-interpreter && patch -Np1 -i ../patches/frege-interpreter.patch &&
+	                          patch -Np1 -i ../patches/frege-interpreter-mutableio.patch )
 	git_clone https://github.com/Frege/frege-repl.git
 	( cd frege-repl && patch -Np1 -i ../patches/frege-repl.patch )
 }
