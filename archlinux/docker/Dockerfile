@@ -3,7 +3,7 @@ FROM base/devel as build
 RUN pacman -Syu --noconfirm git
 RUN git clone --depth=1 https://aur.archlinux.org/jdk9.git
 RUN cd jdk9 && \
-    bash -c '. PKGBUILD && pacman -S --asdeps --noconfirm "${makedepends[@]}" "${depends[@]}"' && \
+    bash -c '. PKGBUILD && pacman -Syu --noconfirm && pacman -S --asdeps --needed --noconfirm "${makedepends[@]}" "${depends[@]}"' && \
     chown -R nobody . && \
     su -s /bin/bash nobody makepkg && \
     cp jdk9*.pkg.tar.xz /jdk9.pkg.tar.xz
