@@ -46,7 +46,7 @@ main() {
 	mkdir -p frege-standalone/src/main/frege/frege/
 	cp frege-core/frege/Starter.fr frege-standalone/src/main/frege/frege/
 	cp frege-core/version.gradle frege-standalone/
-	./gradlew --no-daemon -p frege-standalone install
+	./gradlew --no-daemon -p frege-standalone assemble
 }
 
 main "$@"
