@@ -5,7 +5,7 @@ git_clone() {
 	local name="${2-"$(basename "$1" .git)"}"
 	if [ -d "$name" ]; then
 		# assume the name of the remote is "origin"
-		( cd "$name" && git fetch origin -p && git merge --ff-only origin/master && git checkout -f master )
+		( cd "$name" && git fetch origin -p && git checkout -f master && git merge --ff-only origin/master )
 	else
 		# let's hope that 1000 is deep enough not to break git-describe
 		git clone --depth=1000 "$url" "$name"
@@ -16,8 +16,7 @@ prepare() {
 	git_clone https://github.com/Frege/frege.git frege-core
 	cp patches/frege-core-build.gradle frege-core/build.gradle
 	git_clone https://github.com/Frege/frege-interpreter.git
-	( cd frege-interpreter && patch -Np1 -i ../patches/frege-interpreter.patch &&
-	                          patch -Np1 -i ../patches/frege-interpreter-mutableio.patch )
+	( cd frege-interpreter && patch -Np1 -i ../patches/frege-interpreter.patch )
 	git_clone https://github.com/Frege/frege-repl.git
 	( cd frege-repl && patch -Np1 -i ../patches/frege-repl.patch )
 }
